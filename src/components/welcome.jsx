@@ -1,5 +1,7 @@
 import {Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
 import { useState,useMemo } from "react";
+import Footer from "./footer";
+import HowItWorks from "./works";
 
 
 const Welcome = () => {
@@ -201,8 +203,8 @@ const Welcome = () => {
                                                     
                         </div>
                   </div>
-               
-        
+                  <HowItWorks/>
+                  <Footer/>
              
             </section>
           );

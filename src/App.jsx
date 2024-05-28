@@ -2,23 +2,25 @@
 import './App.css'
 import Welcome from './components/welcome';
 import Navbar1 from './components/navbar';
-import Footer from './components/footer';
-import HowItWorks from './components/works';
+import {  Routes, Route } from 'react-router-dom';
+import SignUp from './components/subComponent/signup';
+import SignIn from './components/subComponent/signin';
+
 
 
 function App() {
 
   return (
     <>
-    <Navbar1/>
-     <div className="w-full">
-        {/* <Dashboard/> */}
-        <Welcome/>
-        <HowItWorks/>
-        <Footer/>
-     </div>
-     
-      
+      <Navbar1/>
+        <div className="w-full">
+            
+            <Routes>
+                <Route path='/' element={<Welcome/>}/>
+                <Route path='/signup' element={<SignUp/>}/>
+                <Route path='/signin' element={<SignIn/>}/>
+            </Routes>
+        </div> 
     </>
   )
 }
