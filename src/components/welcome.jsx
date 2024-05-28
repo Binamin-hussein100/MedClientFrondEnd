@@ -42,7 +42,7 @@ const Welcome = () => {
                 </svg>
               </div>
         
-              <div className="w-full h-lvh   px-4 sm:px-6 flex border border-blue-500">
+              <div className="w-full h-lvh   px-4 sm:px-6 flex ">
          
                        {/* Hero content */}
                       <div className="pt-32 pb-12 md:pt-40 md:pb-20 w-7/12 ">

@@ -2,6 +2,8 @@
 import './App.css'
 import Welcome from './components/welcome';
 import Navbar1 from './components/navbar';
+import Footer from './components/footer';
+import HowItWorks from './components/works';
 
 
 function App() {
@@ -9,10 +11,11 @@ function App() {
   return (
     <>
     <Navbar1/>
-     <div className="w-full border border-red-500">
+     <div className="w-full">
         {/* <Dashboard/> */}
         <Welcome/>
-       
+        <HowItWorks/>
+        <Footer/>
      </div>
      
       

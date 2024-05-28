@@ -25,24 +25,24 @@ export default function Navbar1() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">ACME</p>
+        <img className="w-20 h-20" src="https://res.cloudinary.com/kingbin/image/upload/v1716285882/Medcohort-removebg-preview_axhlxz.svg" alt="MED COHORT" />          
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
-            Features
+              How it works!
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page">
-            Customers
+            New Order
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
-            Integrations
+            About Us
           </Link>
         </NavbarItem>
       </NavbarContent>
