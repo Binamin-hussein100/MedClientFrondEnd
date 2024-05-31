@@ -5,6 +5,7 @@ import Navbar1 from './components/navbar';
 import {  Routes, Route } from 'react-router-dom';
 import SignUp from './components/subComponent/signup';
 import SignIn from './components/subComponent/signin';
+import NewOrder from './components/newOrder';
 
 
 
@@ -19,6 +20,7 @@ function App() {
                 <Route path='/' element={<Welcome/>}/>
                 <Route path='/signup' element={<SignUp/>}/>
                 <Route path='/signin' element={<SignIn/>}/>
+                <Route path='/newOrder' element={<NewOrder/>}/>
             </Routes>
         </div> 
     </>
