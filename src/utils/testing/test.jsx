@@ -107,7 +107,7 @@ const Form = () => {
   useEffect(() => {
     setSteps((prevSteps) => {
       const updatedSteps = prevSteps.map((step) => {
-        if (step.id === stepNumber) {
+        if (step.id === 3) {
           return { ...step, active: true };
         } else {
           return { ...step, active: false };
