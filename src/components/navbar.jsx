@@ -39,7 +39,7 @@ export default function Navbar1() {
             </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+          <Link as={NavLi} to="/newOrder" href="#" aria-current="page">
             New Order
           </Link>
         </NavbarItem>
