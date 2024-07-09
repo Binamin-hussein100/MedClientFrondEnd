@@ -3,8 +3,9 @@ import  { useEffect, useState } from "react";
 const Step = ({ number, title, active }) => {
   const [bg, setBg] = useState("");
   useEffect(() => {
-    if (active) setBg("bg-[#adbeff]");
+    if (active) setBg("bg-[#ffffff]");
     else setBg("");
+
   }, [active]);
 
   return (
@@ -15,7 +16,7 @@ const Step = ({ number, title, active }) => {
         {number}
       </div>
       <div className="hidden md:block">
-        <div className="font-regular text-[#d6d9e6] text-[14px]">
+        <div className="font-regular text-[#40406b] text-[14px]">
           Step {number}
         </div>
         <div className="font-bold text[15px]">{title}</div>
