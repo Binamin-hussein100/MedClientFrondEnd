@@ -1,7 +1,58 @@
+import React, { useState } from 'react';
 
 
 
 const SignUp = () => {
+    const[loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
+    const [formData, setFormData] = useState({
+      fullNames: '',
+      username: '',
+      email: '',
+      password: '',
+      tel: ''
+    });
+
+    const handleChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    };
+
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      console.log(formData)
+
+      setLoading(true);
+      setError('');
+      setSuccess('');
+  
+      try {
+        const response = await fetch('http://localhost:3000/auth/registerClient', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        setSuccess(result.message);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
     return(
         // <!-- Sign Up Form -->
         <div>
@@ -24,24 +75,77 @@ const SignUp = () => {
 
             <div className="bg-white rounded-lg hover:border border-sky-400 shadow-md p-8 w-full mx-auto my-16 max-w-md">
             <h2 className="text-2xl font-semibold text-blue-600 mb-6">Create an Account</h2>
-            <form>
+            {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
+
+            <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label  className="block text-sm font-medium text-gray-600">Name</label>
-                    <input type="text" id="name" name="name" className="mt-1 p-2 w-full border rounded-md text-gray-800"/>
+                    <label  className="block text-sm font-medium text-gray-600">Fullname</label>
+                    <input 
+                      type="text" 
+                      id="name" 
+                      name="fullNames" 
+                      value={formData.fullNames}
+                      onChange={handleChange}
+                      className="mt-1 p-2 w-full border rounded-md text-gray-800"
+                      />
+                </div>
+                <div className="mb-4">
+                    <label  className="block text-sm font-medium text-gray-600">Username</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="username" 
+                        value={formData.username}
+                        onChange={handleChange}
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800"
+                        />
                 </div>
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-600">Email</label>
-                    <input type="email" id="email" name="email" className="mt-1 p-2 w-full border rounded-md text-gray-800"/>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800"
+                        />
                 </div>
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-600">Password</label>
-                    <input type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md text-gray-800" />
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password"
+                        value={formData.password} 
+                        onChange={handleChange}
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800" 
+                        />
                 </div>
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-600">Confirm password</label>
-                    <input type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md text-gray-800" />
+                    <label className="block text-sm font-medium text-gray-600">Tel</label>
+                    <input 
+                        type="text" 
+                        id="tel" 
+                        name="tel" 
+                        value={formData.tel}
+                        onChange={handleChange}
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800" 
+                        />
                 </div>
-                <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Sign Up</button>
+                {/* <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-600">Confirm password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800" 
+                        />
+                </div> */}
+                <button 
+                  type="submit" 
+                  className="w-full p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Sign Up</button>
             </form>
         </div>
         </div>

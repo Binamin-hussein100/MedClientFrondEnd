@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { BrowserRouter as Router } from 'react-router-dom';
-import { NextUIProvider } from '@nextui-org/react'
+import { NextUIProvider } from '@nextui-org/react';
 
 // import './styles/tailwind.css';
 
@@ -10,7 +10,7 @@ import { NextUIProvider } from '@nextui-org/react'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
       <NextUIProvider>
-      <App />
+        <App />
     </NextUIProvider>
   </Router>
     
