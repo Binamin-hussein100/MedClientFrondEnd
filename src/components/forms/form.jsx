@@ -39,6 +39,8 @@ const Form = () => {
         }
     }, [stepNumber, displayThankyou]);
 
+
+
     const nextStep = () => {
         setStepNumber((prevStep) => prevStep + 1);
     };
@@ -46,15 +48,36 @@ const Form = () => {
     const prevStep = () => {
         setStepNumber((prevStep) => prevStep - 1);
     };
+    
     const formData = [
       part1Data,
       part2Data,
       part3Data,
     ];
-    const handleSubmit = () => {
-        // form submission
-        console.log("Form Data: ", formData);
-        setDisplayThankyou(true);
+    console.log(formData)
+    const handleSubmit = async (event) => {
+      event.preventDefault(); // Prevent default form submission
+    
+      try {
+        const response = await fetch('http://localhost:3000/gigs', { // Updated endpoint
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+    
+        const result = await response.json();
+        console.log('Success:', result);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    
+      setDisplayThankyou(true);
     };
 
     const renderSummary = (data) => {
@@ -68,10 +91,10 @@ const Form = () => {
   };
     
     return (
-        <div className="h-screen py-12">
-            <div className="border rounded-xl mx-auto h-4/5 w-4/5 md:flex justify-center">
-                <div className="rounded-l-lg bg-sky-300 w-1/3">
-                    <div className="flex justify-center space-x-10 md:space-x-0 md:block md:mt-0 md:pl-6 md:pt-8 md:space-y-7">
+        <div className="h-screen py-12 px-5">
+            <div className="border rounded-xl mx-auto grid grid-cols-1 lg:h-fit lg:w-4/5 md:flex justify-center">
+                <div className="rounded-lg lg:rounded-r-none bg-sky-300 w-full lg:w-1/3">
+                    <div className="flex gap-5 p-5 lg:flex-row justify-center lg:space-x-0 md:space-x-0 md:block md:mt-0 md:pl-6 md:pt-8 md:space-y-7">
                         {steps.map((step) => (
                             <Step
                                 key={step.id}
@@ -99,7 +122,7 @@ const Form = () => {
                                 )}
                                 {stepNumber === 4 &&
                                       <>
-                                       <div  className="flex justify-center items-center space-y-4 flex-col bg-sky-400 rounded">
+                                       {/* <div  className="flex justify-center items-center space-y-4 flex-col bg-sky-400 rounded">
                                             {renderSummary(part1Data)}
                                             {renderSummary(part2Data)}
                                             {renderSummary(part3Data)}
@@ -108,13 +131,13 @@ const Form = () => {
                                                     <p className="text-base dark:text-gray-300 leading-4 text-gray-600">11</p>
                                             </div>
 
-                                       </div>
+                                       </div> */}
                                                 
                                       
                                     </>
                                  }
                             </div>
-                            <div className="flex justify-between fixed bottom-0 left-0 w-full md:static md:p-0 md:static items-center w-[700px]]">
+                            <div className="flex justify-between w-full md:p-0 md:static items-center w-w-full lg:w-full my-10">
                                 <div
                                     onClick={prevStep}
                                     className={`font-medium text-[#9699ab] select-none cursor-pointer transition duration-100 hover:text-[#02295a] ${goBackVisible}`}

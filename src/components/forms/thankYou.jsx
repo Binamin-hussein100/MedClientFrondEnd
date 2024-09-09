@@ -9,7 +9,7 @@ const Thankyou = () => {
         <p className="text-[#9699ab] text-[14px] w-96">
           Thanks for confirming your subscription! We hope you have fun using our
           platform. If you ever need support. Please feel free to email us at
-          zainkazi27@gmail.com
+          change@gmail.com
         </p>
       </div>
     );

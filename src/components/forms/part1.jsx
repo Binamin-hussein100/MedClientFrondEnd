@@ -3,7 +3,7 @@ import { useState } from "react";
 const Part1 = ({ data, setData }) => {
     const [selectedOption, setSelectedOption] = useState("1");
 
-    let deadline = ["12 hrs", "24 hrs", "2 Days", "3 Days", "5 Days", "7 Days", "14 Days"];
+    let deadline = ["Urgent","12 hrs", "24 hrs", "2 Days", "3 Days", "5 Days", "7 Days", "14 Days"];
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -18,7 +18,7 @@ const Part1 = ({ data, setData }) => {
         <>
             {/* deadline */}
             <h3>Deadline</h3>
-            <div className="grid w-[40rem] grid-cols-4 gap-2 rounded-xl bg-gray-200 p-2 border border-sky-500">
+            <div className="grid lg:w-[40rem] grid-cols-2 lg:grid-cols-4 gap-2 rounded-xl bg-gray-200 p-2 border border-sky-500">
                 {deadline.map((option) => (
                     <div key={option}>
                         <input
@@ -43,7 +43,7 @@ const Part1 = ({ data, setData }) => {
             <h3 className="mt-2">Topic title</h3>
             <div>
                 <input
-                    className="grid w-[40rem] grid-cols-4 gap-2 rounded-xl border border-sky-500 bg-gray-200 p-2"
+                    className="grid lg:w-[40rem] w-full grid-cols-4 gap-2 rounded-xl border border-sky-500 bg-gray-200 p-2"
                     placeholder="Writer's choice"
                     type="text"
                     name="topic"
@@ -52,10 +52,10 @@ const Part1 = ({ data, setData }) => {
                 />
             </div>
             {/* custom instructions */}
-            <h3 className="mt-2">Instructions</h3>
+            <h3 className="mt-2">Instructions </h3>
             <div>
                 <textarea
-                    className="grid w-[40rem] grid-cols-4 gap-2 rounded-xl border border-sky-500 bg-gray-200 p-2"
+                    className="grid w-full lg:w-[40rem] grid-cols-4 gap-2 rounded-xl border border-sky-500 bg-gray-200 p-2"
                     name="instructions"
                     value={data.instructions || ""}
                     onChange={handleChange}
