@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate, Link as NavLi } from "react-router-dom";
+import Cookies from 'js-cookie'
 import {  Chip, Tooltip } from "@nextui-org/react";
 import { EyeIcon } from "../../utils/eyeIcon";
 import Sidebar from "./sidenav";
@@ -7,6 +8,7 @@ import { IoBagHandle, IoPieChart, IoPeople, IoCart } from 'react-icons/io5'
 import DashboardStatsGrid from "./stats"
 import Header from "./header";
 import {Button} from "@nextui-org/react"
+import { useAuth } from "../../context/AuthContext";
 
 
 const statusColorMap = {
@@ -17,34 +19,46 @@ const statusColorMap = {
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([])
-    const [loading, setLoading] = useState(true); // State to manage loading state
-    const [error, setError] = useState(null); // State to manage error state
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
 
     const navigate = useNavigate();
 
-    console.log("Test")
-    useEffect(() => {
-        const fetchUser = async () => {
-          try{
-            setLoading(true);
-            const response = await fetch('http://localhost:3000/api/assignments/allAssignments')
-            if(!response.ok){
-              throw new Error('Network response was not ok')
-            }
-            const data = await response.json()
-            console.log(data)
-            setOrders(data.assignments)
+    console.log(Cookies.get('token'), "Get TOKKKEEEEN")
 
-          }
-          catch(error){
-            console.error(error)
-          }finally{
+    const { userId, isLoggedIn } = useAuth();
+
+    console.log(userId,"logged user ID");
+    console.log(isLoggedIn,'login var')
+
+    const url = `http://localhost:3000/api/client/getClient/{userId}`
+
+
+    useEffect(() => {
+     
+        // Fetch orders if authenticated
+        const fetchUser = async () => {
+          try {
+            setLoading(true);
+            const response = await fetch(url, {
+              method: 'GET',
+              credentials: 'include',
+            });
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setOrders(data);
+          } catch (error) {
+            console.error(error);
+          } finally {
             setLoading(false);
           }
-        }
-        fetchUser()
-    },[])
+        };
+        fetchUser();
+      
+    }, [navigate]);
 
 
   const renderCell = React.useCallback((order, columnKey) => {

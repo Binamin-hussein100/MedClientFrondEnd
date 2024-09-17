@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
+import { useAuth } from '../../context/AuthContext';
+
+
 
 const SignIn = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { setUserId, setIsLoggedIn,userId } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -22,6 +27,8 @@ const SignIn = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: 'include',
+
       });
 
       if (!response.ok) {
@@ -29,9 +36,16 @@ const SignIn = () => {
       }
 
       const data = await response.json(); 
-      const { message } = data;
+      console.log("response data",data);
+      const { message, userId } = data;
 
+
+      setUserId(userId); 
+      setIsLoggedIn(true);
+
+      console.log(userId, "userId from context")
       navigate('/orders');
+      
       setMessage(message);
     } catch (error) {
       setMessage('Login failed. Please try again.');

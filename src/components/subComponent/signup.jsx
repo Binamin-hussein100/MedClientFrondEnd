@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -6,6 +7,8 @@ const SignUp = () => {
     const[loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
       fullNames: '',
       username: '',
@@ -44,6 +47,7 @@ const SignUp = () => {
         }
 
         const result = await response.json();
+        navigate('/signin')
         setSuccess(result.message);
       } catch (error) {
         setError(error.message);
