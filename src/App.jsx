@@ -10,31 +10,59 @@ import EachOrder from './components/ClientDashboard/eachOrder';
 import ProtectedRoute from './components/protectedRoute';
 
 function App() {
-  const location = useLocation();
+	const location = useLocation();
 
-  const showNavbar = location.pathname === '/' || location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/newOrder';
+	const showNavbar =
+		location.pathname === '/' ||
+		location.pathname === '/signin' ||
+		location.pathname === '/signup' ||
+		location.pathname === '/newOrder';
 
-  return (
-    <>
-      {showNavbar && <Navbar1 />}
-      <div className="">
-        <Routes>
-          {/* Public routes */}
-          <Route path='/' element={<Welcome />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/signin' element={<SignIn />} />
-          <Route path='/newOrder' element={<NewOrder />} />
+	return (
+		<>
+			{showNavbar && <Navbar1 />}
+			<div className="">
+				<Routes>
+					{/* Public routes */}
+					<Route path="/" element={<Welcome />} />
+					<Route path="/signup" element={<SignUp />} />
+					<Route path="/signin" element={<SignIn />} />
+					<Route path="/newOrder" element={<NewOrder />} />
 
-          {/* Protected routes */}
-          <Route path='/orders' element={<ProtectedRoute element={OrdersList} />} />
-          <Route path='/order/:id' element={<ProtectedRoute element={EachOrder} />} />
+					{/* Protected routes */}
+					{/* <Route
+						path="/orders"
+						element={
+							<ProtectedRoute>
+								<OrdersList />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/order/:id"
+						element={
+							<ProtectedRoute>
+								<EachOrder />
+							</ProtectedRoute>
+						}
+					/> */}
 
-          {/* Catch-all route */}
-          <Route path="*" element={<div>404 Not Found</div>} />
-        </Routes>
-      </div>
-    </>
-  );
+					{/* Protected routes */}
+					<Route
+						path="/orders"
+						element={<ProtectedRoute element={OrdersList} />}
+					/>
+					<Route
+						path="/order/:id"
+						element={<ProtectedRoute element={EachOrder} />}
+					/>
+
+					{/* Catch-all route */}
+					<Route path="*" element={<div>404 Not Found</div>} />
+				</Routes>
+			</div>
+		</>
+	);
 }
 
 export default App;

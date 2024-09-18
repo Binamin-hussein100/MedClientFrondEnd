@@ -1,54 +1,51 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { jwtDecode } from "jwt-decode";
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userId, setUserId] = useState(null);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Function to validate the token
-    const validateToken = (token) => {
-        try {
-            const decodedToken = jwtDecode(token); // Decode the token
-            const currentTime = Date.now() / 1000; // Current time in seconds
+	const [userId, setUserId] = useState(null);
+	const [user, setUser] = useState(null);
 
-            if (decodedToken.exp && decodedToken.exp > currentTime) {
-                setUserId(decodedToken.id); 
-                setIsLoggedIn(true);        
-            } else {
-                logout(); 
-            }
-        } catch (error) {
-            console.error("Invalid token:", error);
-            logout(); 
-        }
-    };
+	useEffect(() => {
+		fetch('http://localhost:3000/api/client/getClient', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setUser(data.client);
+				setUserId(data.client.id);
+			});
+	}, []);
 
-    
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
-            console.log(token, "token from context")
-            validateToken(token); // Validate the token when app loads
-        }
-        else{
-            console.log("No token found")
-        }
-    }, []);
+	const logout = () => {
+		setIsLoggedIn(false);
+		setUserId(null);
+		Cookies.remove('token'); // Remove token from cookies
+	};
 
-    const logout = () => {
-        setIsLoggedIn(false);
-        setUserId(null);
-        Cookies.remove('token'); // Remove token from cookies
-    };
-
-    return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, logout, userId, setUserId }}>
-            {children}
-        </AuthContext.Provider>
-    );
+	return (
+		<AuthContext.Provider
+			value={{
+				isLoggedIn,
+				setIsLoggedIn,
+				logout,
+				userId,
+				setUserId,
+				user,
+			}}
+		>
+			{children}
+		</AuthContext.Provider>
+	);
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+	return useContext(AuthContext);
+};

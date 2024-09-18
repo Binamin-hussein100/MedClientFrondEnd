@@ -1,27 +1,32 @@
-import React, { Fragment } from 'react'
-import { Menu, Popover, Transition } from '@headlessui/react'
-import { HiOutlineBell, HiOutlineSearch, HiOutlineChatAlt } from 'react-icons/hi'
-import { useNavigate } from 'react-router-dom'
-import classNames from 'classnames'
+import React, { Fragment } from 'react';
+import { Menu, Popover, Transition } from '@headlessui/react';
+import {
+	HiOutlineBell,
+	HiOutlineSearch,
+	HiOutlineChatAlt,
+} from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 import Cookies from 'js-cookie';
 import { useAuth } from '../../context/AuthContext';
 
-
 export default function Header() {
-	const navigate = useNavigate()
-	const { logout } = useAuth();
-
+	const navigate = useNavigate();
+	const { logout, user } = useAuth();
 
 	const handleLogout = async () => {
 		try {
-			const response = await fetch('http://localhost:3000/auth/logoutClt', {
-				method: 'POST',
-				credentials: 'include',
-			});
-	
+			const response = await fetch(
+				'http://localhost:3000/auth/logoutClt',
+				{
+					method: 'POST',
+					credentials: 'include',
+				}
+			);
+
 			if (response.ok) {
-				logout();				
-				navigate('/signin'); 
+				logout();
+				navigate('/signin');
 			} else {
 				console.error('Logout failed:', response.statusText);
 			}
@@ -33,7 +38,10 @@ export default function Header() {
 	return (
 		<div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
 			<div className="relative">
-				<HiOutlineSearch fontSize={20} className="text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
+				<HiOutlineSearch
+					fontSize={20}
+					className="text-gray-400 absolute top-1/2 left-3 -translate-y-1/2"
+				/>
 				<input
 					type="text"
 					placeholder="Search..."
@@ -63,8 +71,12 @@ export default function Header() {
 							>
 								<Popover.Panel className="absolute right-0 z-10 mt-2.5 transform w-80">
 									<div className="bg-white rounded-sm shadow-md ring-1 ring-black ring-opacity-5 px-2 py-2.5">
-										<strong className="text-gray-700 font-medium">Messages</strong>
-										<div className="mt-2 py-1 text-sm">This is messages panel.</div>
+										<strong className="text-gray-700 font-medium">
+											Messages
+										</strong>
+										<div className="mt-2 py-1 text-sm">
+											This is messages panel.
+										</div>
 									</div>
 								</Popover.Panel>
 							</Transition>
@@ -93,8 +105,12 @@ export default function Header() {
 							>
 								<Popover.Panel className="absolute right-0 z-10 mt-2.5 transform w-80">
 									<div className="bg-white rounded-sm shadow-md ring-1 ring-black ring-opacity-5 px-2 py-2.5">
-										<strong className="text-gray-700 font-medium">Notifications</strong>
-										<div className="mt-2 py-1 text-sm">This is notification panel.</div>
+										<strong className="text-gray-700 font-medium">
+											Notifications
+										</strong>
+										<div className="mt-2 py-1 text-sm">
+											This is notification panel.
+										</div>
 									</div>
 								</Popover.Panel>
 							</Transition>
@@ -107,7 +123,10 @@ export default function Header() {
 							<span className="sr-only">Open user menu</span>
 							<div
 								className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-								style={{ backgroundImage: 'url("https://source.unsplash.com/80x80?face")' }}
+								style={{
+									backgroundImage:
+										'url("https://source.unsplash.com/80x80?face")',
+								}}
 							>
 								<span className="sr-only">Marc Backes</span>
 							</div>
@@ -132,7 +151,7 @@ export default function Header() {
 											'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
 										)}
 									>
-										Your Profile
+										Your Profile: {user?.username}
 									</div>
 								)}
 							</Menu.Item>
@@ -149,11 +168,10 @@ export default function Header() {
 									</div>
 								)}
 							</Menu.Item>
-							
 						</Menu.Items>
 					</Transition>
 				</Menu>
 			</div>
 		</div>
-	)
+	);
 }
