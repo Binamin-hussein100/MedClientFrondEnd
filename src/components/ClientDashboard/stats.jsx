@@ -1,7 +1,15 @@
 import React from 'react'
 import { IoCalendarSharp , IoPieChart, IoPeople, IoListSharp  } from 'react-icons/io5'
+import { useAuth } from '../../context/AuthContext';
+
+
+
 
 export default function DashboardStatsGrid() {
+	const { user } = useAuth();
+	const userAssignments = user?.assignments
+	{userAssignments.length > 1 ? console.log("Iko") : console.log("hakuna")}
+	console.log("From stats: ", userAssignments.length)
 	return (
 		<div className="flex gap-8  ">
 
@@ -12,7 +20,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-sm text-gray-500 font-light">Total Orders</span>
 					<div className="flex items-center">
-						<strong className="text-5xl text-gray-700 font-semibold">16</strong>
+						<strong className="text-5xl text-gray-700 font-semibold"> {userAssignments.length} </strong>
 					</div>
 				</div>
 			</div>
@@ -23,7 +31,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-sm text-gray-500 font-light">Orders In Progress</span>
 					<div className="flex items-center">
-						<strong className="text-5xl text-gray-700 font-semibold">5</strong>
+						<strong className="text-5xl text-gray-700 font-semibold">{userAssignments.length < 1 ? 0 : userAssignments.length}</strong>
 					</div>
 				</div>
 			</div>
@@ -35,7 +43,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-sm text-gray-500 font-light">Done</span>
 					<div className="flex items-center">
-						<strong className="text-5xl text-gray-700 font-semibold">8</strong>
+						<strong className="text-5xl text-gray-700 font-semibold">{userAssignments.length < 1 ? 0 : userAssignments.length}</strong>
 					</div>
 				</div>
 			</div>

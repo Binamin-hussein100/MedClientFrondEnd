@@ -19,15 +19,16 @@ export const AuthProvider = ({ children }) => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
+				console.log(data)
 				setUser(data.client);
 				setUserId(data.client.id);
 			});
-	}, []);
+	}, [user]);
 
 	const logout = () => {
 		setIsLoggedIn(false);
 		setUserId(null);
-		Cookies.remove('token'); // Remove token from cookies
+		Cookies.remove('token'); 
 	};
 
 	return (
