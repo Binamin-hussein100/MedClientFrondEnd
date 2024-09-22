@@ -1,44 +1,32 @@
-import Cookies from 'js-cookie';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, fetchUserData } from '../components/redux/clientAuthSlice'; // Import your actions
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const dispatch = useDispatch();
+	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+	const userId = useSelector((state) => state.auth.userId);
+	const user = useSelector((state) => state.auth.user);
 
-	const [userId, setUserId] = useState(null);
-	const [user, setUser] = useState(null);
-
+	// Fetch user data when the component mounts
 	useEffect(() => {
-		fetch('http://localhost:3000/api/client/getClient', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			credentials: 'include',
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data)
-				setUser(data.client);
-				setUserId(data.client.id);
-			});
-	}, [user]);
+		if (isLoggedIn) {
+			dispatch(fetchUserData()); // Dispatch action to fetch user data
+		}
+	}, [isLoggedIn, dispatch]);
 
-	const logout = () => {
-		setIsLoggedIn(false);
-		setUserId(null);
-		Cookies.remove('token'); 
+	const handleLogout = () => {
+		dispatch(logout()); // Dispatch the logout action
 	};
 
 	return (
 		<AuthContext.Provider
 			value={{
 				isLoggedIn,
-				setIsLoggedIn,
-				logout,
+				handleLogout,
 				userId,
-				setUserId,
 				user,
 			}}
 		>
