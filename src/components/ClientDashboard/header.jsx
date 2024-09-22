@@ -7,33 +7,52 @@ import {
 } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/clientAuthSlice';
 import { useAuth } from '../../context/AuthContext';
+import Cookies from 'js-cookie';
+import { persistStore } from 'redux-persist';
+import store from '../../store'
+
+
+
 
 export default function Header() {
 	const navigate = useNavigate();
-	const { logout, user } = useAuth();
+	const dispatch = useDispatch();
+	const { user } = useAuth();
 
+
+
+	
+	
 	const handleLogout = async () => {
-		try {
-			const response = await fetch(
-				'http://localhost:3000/auth/logoutClt',
-				{
-					method: 'POST',
-					credentials: 'include',
-				}
-			);
-
-			if (response.ok) {
-				logout();
-				navigate('/signin');
-			} else {
-				console.error('Logout failed:', response.statusText);
-			}
-		} catch (error) {
-			console.error('Error logging out:', error);
+	  try {
+		const response = await fetch('http://localhost:3000/auth/logoutClt', {
+		  method: 'POST',
+		  credentials: 'include', // Ensure the server properly handles clearing the session cookie
+		});
+	
+		if (response.ok) {
+		  // Dispatch the logout action to clear the Redux state
+		  dispatch(logout());
+	
+		  // Clear cookies (if applicable)
+	
+		  // Clear Redux Persist data (optional but recommended)
+		  const persistor = persistStore(store);
+		  persistor.purge(); // Clears all persisted data
+	
+		  // Redirect the user after logout
+		  navigate('/signin');
+		} else {
+		  console.error('Logout failed:', response.statusText);
 		}
+	  } catch (error) {
+		console.error('Error logging out:', error);
+	  }
 	};
+	
 
 	return (
 		<div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
@@ -151,7 +170,7 @@ export default function Header() {
 											'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
 										)}
 									>
-										Your Profile: {user?.username}
+										Your Profile: {user.client.username}
 									</div>
 								)}
 							</Menu.Item>

@@ -7,9 +7,10 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function DashboardStatsGrid() {
 	const { user } = useAuth();
-	const userAssignments = user?.assignments
-	{userAssignments.length > 1 ? console.log("Iko") : console.log("hakuna")}
-	console.log("From stats: ", userAssignments.length)
+
+
+	const userAssignments = user.client.assignments
+	
 	return (
 		<div className="flex gap-8  ">
 

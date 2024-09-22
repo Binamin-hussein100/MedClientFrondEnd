@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/clientAuthSlice'; 
+import { fetchUserData } from '../redux/clientAuthSlice'; 
+import { Link } from 'react-router-dom';
+
+
 
 const SignIn = () => {
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
-	const { setIsLoggedIn } = useAuth();
+	const dispatch = useDispatch();
+
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -36,7 +43,12 @@ const SignIn = () => {
 				const data = await response.json();
 				console.log('response data:', data);
 
-				setIsLoggedIn(true);
+				dispatch(login({ 
+					userId: data.client.id,
+                    isLoggedIn: true
+				}))
+
+				dispatch(fetchUserData());
 
 				navigate('/orders');
 
@@ -125,9 +137,9 @@ const SignIn = () => {
 						Sign In
 					</button>
 				</form>
-				<a className="text-blue-700 text-center text-sm" href="/">
+				<Link className="text-blue-700 text-center text-sm" to='/forgot_password'>
 					Forgot password?
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

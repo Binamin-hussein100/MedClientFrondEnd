@@ -2,12 +2,13 @@ import './App.css';
 import Welcome from './components/welcome';
 import Navbar1 from './components/navbar';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import SignUp from './components/subComponent/signup';
-import SignIn from './components/subComponent/signin';
+import SignUp from './components/Auth/signup';
+import SignIn from './components/Auth/signin';
 import NewOrder from './components/newOrder';
 import OrdersList from './components/ClientDashboard/ordersList';
 import EachOrder from './components/ClientDashboard/eachOrder';
 import ProtectedRoute from './components/protectedRoute';
+import ResetPassRequest from './components/Auth/requestPassReset';
 
 function App() {
 	const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/newOrder" element={<NewOrder />} />
+					<Route path="/forgot_password" element={<ResetPassRequest />} />
 
 					{/* Protected routes */}
 					{/* <Route
