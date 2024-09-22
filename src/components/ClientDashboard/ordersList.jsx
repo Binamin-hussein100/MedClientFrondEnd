@@ -15,20 +15,14 @@ const statusColorMap = {
 };
 
 const OrdersList = () => {
-    const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
+  
     const navigate = useNavigate();
-    const { userId, user } = useAuth();
+    const { user } = useAuth();
+   
 
-    console.log(userId, user, " from order");
-    const userAssignments = user?.assignments;
-    console.log(userAssignments, " from order list");
+    const userAssignments = user.client.assignments
 
-    // if (!user) {
-    //     return <div>Loading...</div>; 
-    // }
+    console.log(user)
 
     const renderCell = React.useCallback((order, columnKey) => {
         const cellValue = order[columnKey];
@@ -68,7 +62,6 @@ const OrdersList = () => {
         }
     }, []);
 
-    console.log(orders);
 
     return (
         <div className="flex border">
@@ -78,7 +71,7 @@ const OrdersList = () => {
 
             <div className="p-4 w-full">
                 <Header />
-                {/* <DashboardStatsGrid /> */}
+                <DashboardStatsGrid />
                 <div className="container px-4 sm:px-8">
                     <div className="py-8">
                         <div>
@@ -109,7 +102,7 @@ const OrdersList = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {userAssignments >= 1 ? (
+                                        {userAssignments && userAssignments.length >= 1 ? (
                                             userAssignments.map((order, i) => (
                                                 <tr
                                                     key={i}
