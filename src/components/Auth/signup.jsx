@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { signUp } from '../redux/clientAuthSlice';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -8,10 +12,12 @@ const SignUp = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { signUpStatus, signUpError, isLoggedIn  } = useSelector((state) => state.auth);
 
     const [formData, setFormData] = useState({
       fullNames: '',
-      username: '',
+      confirmPassword: '',
       email: '',
       password: '',
       tel: ''
@@ -25,37 +31,35 @@ const SignUp = () => {
     };
 
 
+    useEffect(() => {
+      if (isLoggedIn) {
+          navigate('/orders');  
+      }
+    }, [isLoggedIn, navigate]);
+
+
     const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log(formData)
-
       setLoading(true);
       setError('');
       setSuccess('');
-  
-      try {
-        const response = await fetch('http://localhost:3000/auth/registerClient', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
 
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-
-        const result = await response.json();
-        navigate('/signin')
-        setSuccess(result.message);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+      if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match!');
+          setLoading(false);
+          return;
       }
-    };
 
+      try {
+          const result = await dispatch(signUp(formData)).unwrap();
+          setSuccess(result.message); // Adjust based on your API response
+          navigate('/orders');
+      } catch (error) {
+          setError(error.message || 'Sign up failed. Please try again.');
+      } finally {
+          setLoading(false);
+      }
+  };
 
     return(
         // <!-- Sign Up Form -->
@@ -79,6 +83,7 @@ const SignUp = () => {
 
             <div className="bg-white rounded-lg hover:border border-sky-400 shadow-md p-8 w-full mx-auto my-16 max-w-md">
             <h2 className="text-2xl font-semibold text-blue-600 mb-6">Create an Account</h2>
+
             {error && <p className="error">{error}</p>}
             {success && <p className="success">{success}</p>}
 
@@ -94,17 +99,7 @@ const SignUp = () => {
                       className="mt-1 p-2 w-full border rounded-md text-gray-800"
                       />
                 </div>
-                <div className="mb-4">
-                    <label  className="block text-sm font-medium text-gray-600">Username</label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="username" 
-                        value={formData.username}
-                        onChange={handleChange}
-                        className="mt-1 p-2 w-full border rounded-md text-gray-800"
-                        />
-                </div>
+              
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-600">Email</label>
                     <input 
@@ -114,6 +109,18 @@ const SignUp = () => {
                         value={formData.email}
                         onChange={handleChange}
                         className="mt-1 p-2 w-full border rounded-md text-gray-800"
+                        />
+                </div>
+
+                <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-600">Tel</label>
+                    <input 
+                        type="text" 
+                        id="tel" 
+                        name="tel" 
+                        value={formData.tel}
+                        onChange={handleChange}
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800" 
                         />
                 </div>
                 <div className="mb-6">
@@ -127,30 +134,30 @@ const SignUp = () => {
                         className="mt-1 p-2 w-full border rounded-md text-gray-800" 
                         />
                 </div>
-                <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-600">Tel</label>
-                    <input 
-                        type="text" 
-                        id="tel" 
-                        name="tel" 
-                        value={formData.tel}
-                        onChange={handleChange}
-                        className="mt-1 p-2 w-full border rounded-md text-gray-800" 
-                        />
-                </div>
-                {/* <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-600">Confirm password</label>
+                <div className="mb-4">
+                    <label  className="block text-sm font-medium text-gray-600">Confirm Password</label>
                     <input 
                         type="password" 
-                        id="password" 
-                        name="password" 
-                        className="mt-1 p-2 w-full border rounded-md text-gray-800" 
+                        id="confPass" 
+                        name="confirmPassword" 
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="mt-1 p-2 w-full border rounded-md text-gray-800"
                         />
-                </div> */}
+                </div>
+
+             
                 <button 
                   type="submit" 
-                  className="w-full p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Sign Up</button>
+                  disabled={signUpStatus === 'loading'}
+                  className="w-full p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    {signUpStatus === 'loading' ? 'Signing Up...' : 'Sign Up'}
+                  </button>
             </form>
+            &nbsp;
+            <p>
+              Already have an account? <Link className="text-blue-700 text-center text-sm" to="/signin">Sign in</Link> 
+            </p>
         </div>
         </div>
     )
