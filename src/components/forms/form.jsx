@@ -59,7 +59,7 @@ const Form = () => {
       event.preventDefault(); // Prevent default form submission
     
       try {
-        const response = await fetch('http://localhost:3000/gigs', { // Updated endpoint
+        const response = await fetch('http://localhost:3000/gigs', { 
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

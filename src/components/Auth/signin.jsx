@@ -129,7 +129,12 @@ const SignIn = () => {
 							required
 						/>
 					</div>
-
+						<Link className="text-blue-700 text-center text-sm" to='/forgot_password'>
+							Forgot password?
+						</Link>
+						<p>
+						&nbsp;
+						</p>
 					<button
 						type="submit"
 						className="w-full p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -137,9 +142,10 @@ const SignIn = () => {
 						Sign In
 					</button>
 				</form>
-				<Link className="text-blue-700 text-center text-sm" to='/forgot_password'>
-					Forgot password?
-				</Link>
+				&nbsp;
+				<p>
+					Don't have an account? <Link className="text-blue-700 text-center text-sm" to="/signup">Sign Up</Link> 
+				</p>
 			</div>
 		</div>
 	);

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { useNavigate } from 'react-router-dom';
+import { IoChevronBackCircleOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom';
+
+
 
 const ResetPassRequest = () => {
     const { isOpen: isSuccessOpen, onOpen: onSuccessOpen, onOpenChange: onSuccessOpenChange } = useDisclosure();
@@ -70,7 +74,9 @@ const ResetPassRequest = () => {
             </div>
 
             <div className="bg-white rounded-lg hover:border border-sky-400 shadow-md p-8 w-full mx-auto my-16 max-w-md">
-                <h2 className="text-2xl font-semibold text-blue-600 mb-6">
+                
+               
+                <h2 className="text-2xl font-semibold text- mb-6">
                     Forgot your password? <br />
                     <small>Please enter your email below</small>
                 </h2>
@@ -89,10 +95,14 @@ const ResetPassRequest = () => {
                         />
                     </div>
 
-                    <Button type="submit" color="primary" variant="ghost">
+                    <Button className="w-full" type="submit" color="primary" >
                         Reset Password
                     </Button>
                 </form>
+                &nbsp;
+                <div className="flex">
+                   <span> <Link to="/signin"><IoChevronBackCircleOutline fontSize={30} className="text-sky-600 "/></Link> </span>&nbsp;&nbsp;&nbsp;Back to login
+                </div>
             </div>
 
             {/* Success Modal */}
