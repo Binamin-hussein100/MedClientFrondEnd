@@ -9,6 +9,7 @@ import OrdersList from './components/ClientDashboard/ordersList';
 import EachOrder from './components/ClientDashboard/eachOrder';
 import ProtectedRoute from './components/protectedRoute';
 import ResetPassRequest from './components/Auth/requestPassReset';
+import NewOrderSec from './components/newOrderSec';
 
 function App() {
 	const location = useLocation();
@@ -57,6 +58,10 @@ function App() {
 					<Route
 						path="/order/:id"
 						element={<ProtectedRoute element={EachOrder} />}
+					/>
+					<Route
+						path="/newSecOrder"
+						element={<ProtectedRoute element={NewOrderSec} />}
 					/>
 
 					{/* Catch-all route */}

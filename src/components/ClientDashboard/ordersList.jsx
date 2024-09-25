@@ -24,6 +24,9 @@ const OrdersList = () => {
 
     console.log(user)
 
+    const handleClick = () =>{
+        navigate('/newSecOrder')
+    }
     const renderCell = React.useCallback((order, columnKey) => {
         const cellValue = order[columnKey];
 
@@ -74,10 +77,13 @@ const OrdersList = () => {
                 <DashboardStatsGrid />
                 <div className="container px-4 sm:px-8">
                     <div className="py-8">
-                        <div>
+                        <div className='flex justify-between'>
                             <h2 className="text-2xl font-semibold leading-tight">
                                 Your Orders
                             </h2>
+                            <Button onClick={handleClick} color="primary" variant="shadow">
+                                New order
+                            </Button>
                         </div>
 
                         {/* loop */}

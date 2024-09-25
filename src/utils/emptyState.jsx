@@ -1,6 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 function Empty() {
+  const navigate = useNavigate();
+
+
+  const handleClick = () =>{
+      navigate('/newSecOrder')
+  }
+
   return (
     <div className="p-32   relative">
       {/* Component Start */}
@@ -11,7 +20,7 @@ function Empty() {
           <span className="text-m  block mb-10 dark:text-dark">
             Get started by creating a new order
           </span>
-          <button className="bg-blue-400 rounded-full px-5 py-3 text-dark hover:bg-blue-500 w-52">
+          <button onClick={handleClick} className="bg-blue-400 rounded-full px-5 py-3 text-dark hover:bg-blue-500 w-52">
             Create
           </button>
         </div>
